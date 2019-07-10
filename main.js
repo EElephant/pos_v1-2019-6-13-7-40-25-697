@@ -1,11 +1,11 @@
 'use strict';
-
+const aaa = require('./test/fixtures');
+const database = aaa.loadAllItems();
 
 const isBarcodesValid = (Barcodes) =>{
-    let allItems = loadAllItems
     let index = 0
     Barcodes.forEach(element => {
-        allItems.forEach(item => {
+        database.forEach(item => {
             if(element == item.barcode){
                 index ++
             }
@@ -17,6 +17,9 @@ const isBarcodesValid = (Barcodes) =>{
         return false
     }
 }
+
+
+
 
 
 module.exports = {isBarcodesValid}

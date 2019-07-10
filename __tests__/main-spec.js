@@ -1,5 +1,5 @@
 'use strict';
-const aaa = require('../main/main.js');
+const aaa = require('../main.js');
 // describe('pos', () => {
 
 //   it('should print text', () => {
@@ -30,9 +30,14 @@ const aaa = require('../main/main.js');
 
 //     expect(console.log).toHaveBeenCalledWith(expectText);
 //   });
+// });
 
   it('should return true when call is barcodes valid given right barcodes',()=>{
     const barcodes = ['ITEM000001','ITEM000002','ITEM000003']
     expect(aaa.isBarcodesValid(barcodes)).toBe(true)
   })
-// });
+
+  it('should return false when call is barcodes valid given right barcodes',()=>{
+    const barcodes = ['ITEM1000001','ITEM000002','ITEM000003']
+    expect(aaa.isBarcodesValid(barcodes)).toBe(false)
+  })

@@ -71,3 +71,30 @@ const aaa = require('../main.js');
     const barcodes = ['ITEM1000001','ITEM000002','ITEM000003']
     expect(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes))).toBe(null)
   })
+
+
+  let receipt = [{
+    barcode: 'ITEM000001',
+    count:3,
+    name: '雪碧',
+    unit: '瓶',
+    price: 3.00
+  },
+  {
+    barcode: 'ITEM000002',
+    count:5,
+    name: '苹果',
+    unit: '斤',
+    price: 5.50
+  },
+  {
+    barcode: 'ITEM000003',
+    count:2,
+    name: '荔枝',
+    unit: '斤',
+    price: 15.00
+  }]
+  it('should return receipt when call create Receipt given right barcodes',()=>{
+    const barcodes = ['ITEM000001','ITEM000001','ITEM000001','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000003','ITEM000003']
+    expect(aaa.createReceipt(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes)))).toStrictEqual(receipt)
+  })

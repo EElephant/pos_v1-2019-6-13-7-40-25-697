@@ -1,6 +1,7 @@
 'use strict';
 const aaa = require('./test/fixtures');
 const database = aaa.loadAllItems();
+const promotion = aaa.loadPromotions();
 
 const isBarcodesValid = (Barcodes) =>{
     let index = 0
@@ -34,7 +35,84 @@ const createItemLists = (Barcodes,isExst) => {
     }
 }
 
+const createReceipt = (itemLists) => {
+    let receipt = [];
+    
+    itemLists.forEach(item => {
+        let singleReceipt = {
+            barcode: '',
+            name: '',
+            count: 0,
+            unit: '',
+            price: 0,
+            
+        }
+        singleReceipt.barcode = item.barcode
+        singleReceipt.name = item.name
+        singleReceipt.price = item.price
+        singleReceipt.count = 1
+        singleReceipt.unit = item.unit
+        receipt.push(singleReceipt)  
+    })
+    receipt = mergeSingleItemCount(receipt)
+    receipt = dealWithPromotion(receipt)
+    return receipt
+}
+
+const mergeSingleItemCount = (receipt) =>{
+    let elementMap = new Map()
+    receipt.forEach(item => {
+        let count = (elementMap.get(item.name) === undefined) ? 1 : elementMap.get(item.name) + 1;
+        elementMap.set(item.name, count);
+    })
+    let result = [];
+    elementMap.forEach((value, key) => {
+        let item = {
+            name: key,
+            count: value,
+        };
+        result.push(item);
+    });
+    result = rebulidReceipt(result)
+
+    return result;
+}
+
+const rebulidReceipt = (map) =>{
+    let itemLists = []
+    map.forEach(element => {
+        database.forEach(item => {
+            let singleReceipt = {
+                barcode: '',
+                name: '',
+                count: 0,
+                unit: '',
+                price: 0,
+                }
+            if(element.name == item.name){
+                singleReceipt.barcode = item.barcode
+                singleReceipt.name = item.name
+                singleReceipt.count = element.count
+                singleReceipt.unit = item.unit
+                singleReceipt.price = item.price
+                itemLists.push(singleReceipt)
+            }
+        })
+    })
+    return itemLists
+}
+
+const dealWithPromotion = (receipt) => {
+    receipt.forEach(item =>{
+        promotion[0].barcodes.forEach(element => {
+            if(item.barcode == element.barcode && item.count >= 3){
+                
+            }
+        })
+    })
+    return receipt
+}
 
 
 module.exports = {isBarcodesValid,
-    createItemLists}
+    createItemLists,createReceipt}

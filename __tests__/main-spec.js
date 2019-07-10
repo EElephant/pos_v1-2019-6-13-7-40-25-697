@@ -37,7 +37,37 @@ const aaa = require('../main.js');
     expect(aaa.isBarcodesValid(barcodes)).toBe(true)
   })
 
-  it('should return false when call is barcodes valid given right barcodes',()=>{
+  it('should return false when call is barcodes valid given error barcodes',()=>{
     const barcodes = ['ITEM1000001','ITEM000002','ITEM000003']
     expect(aaa.isBarcodesValid(barcodes)).toBe(false)
+  })
+
+
+
+  let itemLists = [{
+    barcode: 'ITEM000001',
+    name: '雪碧',
+    unit: '瓶',
+    price: 3.00
+  },
+  {
+    barcode: 'ITEM000002',
+    name: '苹果',
+    unit: '斤',
+    price: 5.50
+  },
+  {
+    barcode: 'ITEM000003',
+    name: '荔枝',
+    unit: '斤',
+    price: 15.00
+  }]
+  it('should return itemLists when call create ItemLists given right barcodes',()=>{
+    const barcodes = ['ITEM000001','ITEM000002','ITEM000003']
+    expect(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes))).toStrictEqual(itemLists)
+  })
+
+  it('should return null when call create ItemLists given error barcodes',()=>{
+    const barcodes = ['ITEM1000001','ITEM000002','ITEM000003']
+    expect(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes))).toBe(null)
   })

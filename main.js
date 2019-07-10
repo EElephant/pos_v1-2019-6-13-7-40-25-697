@@ -18,8 +18,23 @@ const isBarcodesValid = (Barcodes) =>{
     }
 }
 
+const createItemLists = (Barcodes,isExst) => {
+    let itemLists = []
+    if(isExst == false){
+        return null
+    }else{
+        Barcodes.forEach(element => {
+            database.forEach(item => {
+                if(element == item.barcode){
+                    itemLists.push(item)
+                }
+            })
+        })
+        return itemLists
+    }
+}
 
 
 
-
-module.exports = {isBarcodesValid}
+module.exports = {isBarcodesValid,
+    createItemLists}

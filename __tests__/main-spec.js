@@ -98,3 +98,9 @@ const aaa = require('../main.js');
     const barcodes = ['ITEM000001','ITEM000001','ITEM000001','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000003','ITEM000003']
     expect(aaa.createReceipt(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes)))).toStrictEqual(receipt)
   })
+
+  let receiptString = '***<没钱赚商店>收据***\n名称：雪碧,\t数量：3瓶,\t单价：3(元)，\t小计：6(元)\n名称：苹果,\t数量：5斤,\t单价：5.5(元)，\t小计：22(元)\n名称：荔枝,\t数量：2斤,\t单价：15(元)，\t小计：30(元)\n-------------------------\n总价：58(元)\n节省：8.5(元)\n***************************'
+  it('should return receipt when call create Receipt given right barcodes',()=>{
+    const barcodes = ['ITEM000001','ITEM000001','ITEM000001','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000002','ITEM000003','ITEM000003']
+    expect(aaa.printReceiptString(aaa.createReceipt(aaa.createItemLists(barcodes,aaa.isBarcodesValid(barcodes))))).toStrictEqual(receiptString)
+  })

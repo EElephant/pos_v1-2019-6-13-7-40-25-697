@@ -55,7 +55,7 @@ const createReceipt = (itemLists) => {
         receipt.push(singleReceipt)  
     })
     receipt = mergeSingleItemCount(receipt)
-    receipt = dealWithPromotion(receipt)
+    // receipt = dealWithPromotion(receipt)
     return receipt
 }
 
@@ -102,17 +102,41 @@ const rebulidReceipt = (map) =>{
     return itemLists
 }
 
-const dealWithPromotion = (receipt) => {
-    receipt.forEach(item =>{
-        promotion[0].barcodes.forEach(element => {
-            if(item.barcode == element.barcode && item.count >= 3){
-                
-            }
-        })
+const printReceiptString = (receipt) =>{
+    let receiptString = ''
+    let totalPrice = 0
+    let proPrice = 0
+    receiptString += '***<没钱赚商店>收据***\n'
+    receipt.forEach(item => {
+        receiptString += '名称：'
+        receiptString += item.name
+        receiptString += ',\t数量：'
+        receiptString += item.count
+        receiptString += item.unit
+        receiptString += ',\t单价：'
+        receiptString += item.price
+        receiptString += '(元)，\t小计：'
+        receiptString += item.price * item.count - dealWithPromotion(item.count,item.price)
+        totalPrice += item.price * item.count - dealWithPromotion(item.count,item.price)
+        proPrice += dealWithPromotion(item.count,item.price)
+        receiptString += '(元)\n'
     })
-    return receipt
+    receiptString += '-------------------------\n'
+    receiptString += `总价：${totalPrice}(元)\n`
+    receiptString += `节省：${proPrice}(元)\n`
+    receiptString += '***************************'
+    return receiptString
+
+}
+
+const dealWithPromotion = (count,price) => {
+    let promotion = 0
+    if(count>=3){
+        promotion = parseInt(count / 3) * price
+    }
+    return promotion
 }
 
 
 module.exports = {isBarcodesValid,
-    createItemLists,createReceipt}
+    createItemLists,createReceipt,printReceiptString}
